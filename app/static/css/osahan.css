@@ -21,6 +21,12 @@ Version: 1.0
 	-- Footer
 */
 /* Body */
+.gradient{
+    background: -webkit-linear-gradient(
+-45deg, #080808 0%,#050505 100%) !important;
+
+}
+
  html {
      position: relative;
      min-height: 100%;

@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+# Create your models here.
 class Master(models.Model):
     mobile_no=models.CharField(max_length=18,unique=True)
     Email=models.CharField(max_length=20,unique=True)
@@ -15,14 +17,33 @@ class Master(models.Model):
 class Profile(models.Model):
     Master = models.ForeignKey(Master, on_delete=models.CASCADE)
     FullName = models.CharField(max_length=30,null=True,default='')
-    # Gender = models.CharField(max_length=10,null=True,choices=choice_gender)
+    Mobile = models.CharField(max_length=30,null=True,default='')
     Country = models.CharField(max_length=10,null=True,default='')
-    State = models.CharField(max_length=25,null=True,default='')
     City = models.CharField(max_length=25,null=True,default='')
     Address = models.TextField(max_length=150,null=True,default='')
+    Zip = models.TextField(max_length=150,null=True,default='')
+    
 
     class Meta:
         db_table = 'profile'
     
     def __str__(self):
         return self.FullName
+
+
+class Video(models.Model):
+    Master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    Video_Title=models.CharField(max_length=100,null=True,default='')
+    video=models.FileField(upload_to='media')
+    thumbnail=models.FileField(upload_to='thumbnail')
+    About = models.TextField(max_length=350,null=True,default='')
+    Language = models.CharField(max_length=350,null=True,default='')
+    cast = models.CharField(max_length=350,null=True,default='')
+    category=models.CharField(max_length=150,null=True,default='')
+    
+    class Meta:
+        db_table = 'Video'
+    
+    def __str__(self):
+        return self.Video_Title
+        
