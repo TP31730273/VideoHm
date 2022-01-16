@@ -16,14 +16,19 @@ urlpatterns = [
     path('My_account/',My_account ,name="My_account"),
     path('Upload/',Upload ,name="Upload"),
     path('settings/',setting ,name="settings"),
+    path('All_channels/',channels ,name="channels"),
+    path('Create_channel/',Create_channel ,name="Create_channel"),
+    path('Mychannel/',Mychannel ,name="Mychannel"),
+    
+
     # path('v_page/',v_page ,name="v_page"),
 
     
-    path('video_page/<int:vid>/',video_page ,name="video_page"),
+    # path('video_page/<int:vid>/',video_page ,name="video_page"),
     # actual upload page
     path('upload_page/',upload_page ,name="upload_page"),
     # upload process url
-    path('upload_process/',upload_process ,name="upload_process"),
+    # path('upload_process/',upload_process ,name="upload_process"),
    
    
 

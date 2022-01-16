@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Master, Profile, Video
+from .models import Master, Profile, Channels, Video
 
 
 @admin.register(Master)
@@ -23,16 +23,30 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('Master',)
 
 
+@admin.register(Channels)
+class ChannelsAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'Master',
+        'channel_name',
+        'subscribers',
+        'following',
+        'catagory',
+    )
+    list_filter = ('Master',)
+
+
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'Master',
+        'channels',
         'Video_Title',
         'video',
+        'thumbnail',
         'About',
         'Language',
         'cast',
         'category',
     )
-    list_filter = ('Master',)
+    list_filter = ('channels',)

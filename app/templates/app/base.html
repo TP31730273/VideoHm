@@ -62,7 +62,7 @@
               them
             </a>
           
-            <div class="dropdown-menu" id="hrt" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu"  id="hrt" aria-labelledby="dropdownMenuLink">
               <a class="dropdown-item" id="dark">Dark</a>
               <a class="dropdown-item" id="normal">normal</a>
               
@@ -127,29 +127,36 @@
           </a>
        </li>
        <li class="nav-item">
-          <a class="nav-link" href="channels.html">
+          <a class="nav-link" href="{% url 'channels' %}">
           <i class="fas fa-fw fa-users"></i>
-          <span>Channels</span>
+          <span>All Channels</span>
           </a>
        </li>
+       {% if request.session.Mychannel %}
        <li class="nav-item">
           <a class="nav-link" href="single-channel.html">
           <i class="fas fa-fw fa-user-alt"></i>
-          <span>Single Channel</span>
+          <span>My Channel</span>
           </a>
        </li>
+       {% endif %}
+
+       {% if not request.session.Mychannel %}
        <li class="nav-item">
-          <a class="nav-link" href="video-page.html">
-          <i class="fas fa-fw fa-video"></i>
-          <span>Video Page</span>
-          </a>
-       </li>
+         <a class="nav-link" href="{% url 'Create_channel' %}">
+         <i class="fas fa-plus-square"></i>
+         <span>Create Your channel</span>
+         </a>
+      </li>
+      {% endif %}
+      {% if request.session.Mychannel %}
        <li class="nav-item">
           <a class="nav-link" href="{% url 'Upload' %}   ">
           <i class="fas fa-fw fa-cloud-upload-alt"></i>
           <span>Upload Video</span>
           </a>
        </li>
+       {% endif %}
        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>

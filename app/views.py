@@ -1,3 +1,4 @@
+import profile
 import re
 from django.shortcuts import render
 
@@ -16,6 +17,11 @@ def register(request):
 # normal upload page
 def Upload(request):
     return render(request,'app/upload.html')
+
+# all channels showing 
+def channels(request):
+    profile_data(request)
+    return render(request,'app/channels.html')
 # actual upload page of process
 def upload_page(request):
     profile_data(request)
@@ -23,13 +29,13 @@ def upload_page(request):
     
     return render(request,'app/upload-video.html',default_data)
     
-def video_page(request,vid):
-    profile_data(request)
-    selected_vid=Video.objects.get(id=vid)
-    print("selected_vid.video",selected_vid.video)
-    default_data['selected_video']=selected_vid
+# def video_page(request,vid):
+#     profile_data(request)
+#     selected_vid=Video.objects.get(id=vid)
+#     print("selected_vid.video",selected_vid.video)
+#     default_data['selected_video']=selected_vid
     
-    return render(request,'app/video-page.html',default_data)
+#     return render(request,'app/video-page.html',default_data)
 
 # def v_page(request):
 #     profile_data(request)
@@ -62,13 +68,13 @@ def home(request):
 def profile_data(request):
     master= Master.objects.get(mobile_no=request.session['mobile'])
     profile=Profile.objects.get(Master= master)
-    videoss=Video.objects.all()
+    # videoss=Video.objects.all()
     print(request.session['mobile'])
     # upload_process(request)
-    show_videos(request)
-    all_videos(request)
+    # show_videos(request)
+    # all_videos(request)
     default_data['profile_data']=profile
-    default_data['videos']=videoss
+    # default_data['videos']=videoss
 
 # register data function
 
@@ -83,6 +89,19 @@ def register_data(request):
     Profile.objects.create(Master=master)
     
     return redirect(register)
+
+
+# my channel page
+def Mychannel(request):
+    return render(request,'app/single-channel.html')
+# create channel data
+def Create_channel(request):
+    master=Master.objects.get(mobile_no=request.session['mobile'])
+    chan=Channels.objects.create(Master=master,channel_name=request.POST['channel'],catagory=request.POST['category'])
+    chan.save()
+    request.session['Mychannel']=chan.channel_name
+    return redirect(Mychannel)
+
 
 # login data function
 
@@ -129,13 +148,14 @@ def signout(request):
 
 # upload video
 
-def upload_process(request):
-    master=Master.objects.get(mobile_no=request.session['mobile'])
-    vidoo=request.FILES['video']
-    thumb=request.FILES['thumbnail']
-    print(vidoo)
-    vid=Video.objects.create(Master=master,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
-    vid.save()
+# def upload_process(request):
+#     master=Master.objects.get(mobile_no=request.session['mobile'])
+#     vidoo=request.FILES['video']
+#     thumb=request.FILES['thumbnail']
+#     print(vidoo)
+#     vid=Video.objects.create(Master=master,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
+#     vid.save()
+
     # video.Language=request.POST['language']
     # video.Language=request.POST['language']
     # video.
@@ -147,12 +167,12 @@ def upload_process(request):
 
 # video showing page
     
-def show_videos(request):
-    master=Master.objects.get(mobile_no=request.session['mobile'])
-    video=Video.objects.filter(Master=master)
-    default_data['video']=video
+# def show_videos(request):
+#     master=Master.objects.get(mobile_no=request.session['mobile'])
+#     video=Video.objects.filter(Master=master)
+#     default_data['video']=video
       
-def all_videos(request):
-    allvideos=Video.objects.all()
-    default_data['all_videos']=allvideos
-    # print(allvideos)
+# def all_videos(request):
+#     allvideos=Video.objects.all()
+#     default_data['all_videos']=allvideos
+#     # print(allvideos)

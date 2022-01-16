@@ -1,3 +1,5 @@
+from email.policy import default
+from operator import truediv
 from django.db import models
 
 # Create your models here.
@@ -31,8 +33,24 @@ class Profile(models.Model):
         return self.FullName
 
 
-class Video(models.Model):
+
+        # chabbel model
+class Channels(models.Model):
     Master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    channel_name=models.CharField(max_length=100,null=True,default='')
+    subscribers=models.IntegerField(max_length=1000000000,null=True,default=0)
+    following=models.IntegerField(max_length=100000,null=True,default=0)
+    catagory=models.CharField(max_length=100,null=True,default='general')
+    
+    class Meta:
+        db_table = 'Channels'
+    
+    def __str__(self):
+        return self.channel_name
+        
+
+class Video(models.Model):
+    channels = models.ForeignKey(Channels, on_delete=models.CASCADE)
     Video_Title=models.CharField(max_length=100,null=True,default='')
     video=models.FileField(upload_to='media')
     thumbnail=models.FileField(upload_to='thumbnail')
@@ -46,4 +64,3 @@ class Video(models.Model):
     
     def __str__(self):
         return self.Video_Title
-        
