@@ -17,8 +17,9 @@ urlpatterns = [
     path('Upload/',Upload ,name="Upload"),
     path('settings/',setting ,name="settings"),
     path('All_channels/',channels ,name="channels"),
+    path('create_channel_page/',create_channel_page ,name="create_channel_page"),
     path('Create_channel/',Create_channel ,name="Create_channel"),
-    path('Mychannel/',Mychannel ,name="Mychannel"),
+    path('My_channel/',My_channel ,name="My_channel"),
     
 
     # path('v_page/',v_page ,name="v_page"),
@@ -28,7 +29,7 @@ urlpatterns = [
     # actual upload page
     path('upload_page/',upload_page ,name="upload_page"),
     # upload process url
-    # path('upload_process/',upload_process ,name="upload_process"),
+    path('upload_process/',upload_process ,name="upload_process"),
    
    
 

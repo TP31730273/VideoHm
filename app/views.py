@@ -1,3 +1,4 @@
+from doctest import master
 import profile
 import re
 from django.shortcuts import render
@@ -20,8 +21,16 @@ def Upload(request):
 
 # all channels showing 
 def channels(request):
-    profile_data(request)
     return render(request,'app/channels.html')
+
+# my channel page
+def My_channel(request):
+    profile_data(request)
+    
+    return render(request,'app/single-channel.html',default_data)
+
+def create_channel_page(request):
+    return render(request,'app/create_channel.html')
 # actual upload page of process
 def upload_page(request):
     profile_data(request)
@@ -71,8 +80,14 @@ def profile_data(request):
     # videoss=Video.objects.all()
     print(request.session['mobile'])
     # upload_process(request)
-    # show_videos(request)
+    
     # all_videos(request)
+    try:
+        if request.session['Mychannel']:
+            current_channel_data(request)
+            show__my_videos(request)
+    except:
+        pass
     default_data['profile_data']=profile
     # default_data['videos']=videoss
 
@@ -91,29 +106,45 @@ def register_data(request):
     return redirect(register)
 
 
-# my channel page
-def Mychannel(request):
-    return render(request,'app/single-channel.html')
+    
+# logged_in person's channel data
+def current_channel_data(request):
+    mast=Master.objects.get(mobile_no=request.session['mobile'])
+    chan=Channels.objects.get(Master=mast)
+    default_data['current_channel']=chan
 # create channel data
 def Create_channel(request):
     master=Master.objects.get(mobile_no=request.session['mobile'])
-    chan=Channels.objects.create(Master=master,channel_name=request.POST['channel'],catagory=request.POST['category'])
+    chan=Channels.objects.create(Master=master,channel_name=request.POST['cname'],catagory=request.POST['category'])
     chan.save()
     request.session['Mychannel']=chan.channel_name
-    return redirect(Mychannel)
+    return redirect(home)
 
 
 # login data function
 
 def login_data(request):
     mobile=request.POST['mobile']
+    
     password=request.POST['password']
 
     try:
         master=Master.objects.get(mobile_no=mobile)
+        try:
+            mast=Master.objects.get(mobile_no=mobile)       
+            print("mast:",mast)
+            chn=Channels.objects.get(Master=mast)
+            print("ch:",chn)
+            if chn:
+                request.session['Mychannel']=chn.channel_name
+                print("you have channel go on :",request.session['Mychannel'])
+        except:
+            print("you don't have channel")
+
         
         if master.password == request.POST['password']:
             request.session['mobile']=mobile
+            
             print("login success",master)
             return redirect(home)
         else:
@@ -143,34 +174,32 @@ def signout(request):
     if 'mobile' in request.session:
         print(request.session)
         del request.session['mobile']
-        print('logout')
+    if 'Mychannel' in request.session:
+        del request.session['Mychannel']
+    print('logout')
     return redirect(login)
 
 # upload video
 
-# def upload_process(request):
-#     master=Master.objects.get(mobile_no=request.session['mobile'])
-#     vidoo=request.FILES['video']
-#     thumb=request.FILES['thumbnail']
-#     print(vidoo)
-#     vid=Video.objects.create(Master=master,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
-#     vid.save()
+def upload_process(request):
+    chan=Channels.objects.get(channel_name=request.session['Mychannel'])
+    vidoo=request.FILES['video']
+    thumb=request.FILES['thumbnail']
+    print(vidoo)
+    vid=Video.objects.create(channel_name=chan,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
+    vid.save()
 
     # video.Language=request.POST['language']
     # video.Language=request.POST['language']
     # video.
-   
-    
-
-
-    return redirect(upload_page)
+    return redirect(My_channel)
 
 # video showing page
     
-# def show_videos(request):
-#     master=Master.objects.get(mobile_no=request.session['mobile'])
-#     video=Video.objects.filter(Master=master)
-#     default_data['video']=video
+def show__my_videos(request):
+    chan=Channels.objects.get(channel_name=request.session['Mychannel'])
+    video=Video.objects.filter(channel_name=chan)
+    default_data['myvideo']=video
       
 # def all_videos(request):
 #     allvideos=Video.objects.all()

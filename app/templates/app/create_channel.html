@@ -11,13 +11,13 @@
             </div>
          </div>
       </div>
-      <form action="{% url 'profile_setting' %}" method="post">
+      <form action="{% url 'Create_channel' %}" method="post">
          {% csrf_token %}
          <div class="row">
             <div class="col-sm-6">
                <div class="form-group">
                   <label class="control-label">Channel Name<span class="required">*</span></label>
-                  <input class="form-control border-form-control"   name="channel" type="text" >
+                  <input class="form-control border-form-control"   name="cname" type="text" >
                </div>
             </div>
             <div class="col-sm-6">
@@ -29,7 +29,7 @@
          </div>
          <div class="row">
             <div class="col-sm-12 text-right">
-               <button type="submit" class="btn btn-success border-none"> Save Changes </button>
+               <button type="submit" class="btn btn-success border-none">create your channel</button>
             </div>
          </div>
 

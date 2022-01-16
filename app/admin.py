@@ -40,7 +40,7 @@ class ChannelsAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'channels',
+        'channel_name',
         'Video_Title',
         'video',
         'thumbnail',
@@ -49,4 +49,4 @@ class VideoAdmin(admin.ModelAdmin):
         'cast',
         'category',
     )
-    list_filter = ('channels',)
+    list_filter = ('channel_name',)

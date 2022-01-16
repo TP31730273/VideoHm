@@ -69,12 +69,14 @@
             </div>
           </div>
       </li> 
+      {% if request.session.Mychannel %}
       <li class="nav-item mx-1">
           <a class="nav-link" href="{% url 'Upload' %}">
           <i class="fas fa-plus-circle fa-fw"></i>
           Upload Video
           </a>
        </li>
+       {% endif %}
        <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-bell fa-fw"></i>
@@ -105,7 +107,12 @@
            
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-             <a class="dropdown-item" href="{% url 'My_account' %}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; My account</a>
+            {% if request.session.Mychannel %}
+            <a class="dropdown-item" href="{% url 'My_account' %}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; My account</a>
+            {% endif %}
+            {% if not request.session.Mychannel %}
+            <a class="dropdown-item" href="{% url 'create_channel_page' %}"><i class="fas fa-plus-square"></i> &nbsp; Create your channel</a>
+            {% endif %}
              <a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; My Subscriptions</a>
              <a class="dropdown-item" href="{% url 'settings' %}"><i class="fas fa-fw fa-cog"></i> &nbsp; Settings</a>
              <div class="dropdown-divider"></div>
@@ -134,7 +141,7 @@
        </li>
        {% if request.session.Mychannel %}
        <li class="nav-item">
-          <a class="nav-link" href="single-channel.html">
+          <a class="nav-link" href="{% url 'My_channel' %}">
           <i class="fas fa-fw fa-user-alt"></i>
           <span>My Channel</span>
           </a>
@@ -143,7 +150,7 @@
 
        {% if not request.session.Mychannel %}
        <li class="nav-item">
-         <a class="nav-link" href="{% url 'Create_channel' %}">
+         <a class="nav-link" href="{% url 'create_channel_page' %}">
          <i class="fas fa-plus-square"></i>
          <span>Create Your channel</span>
          </a>
