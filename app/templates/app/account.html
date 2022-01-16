@@ -87,9 +87,9 @@
                            <h6>My Videos</h6>
                         </div>
                      </div>
-                  {% for v in video %}
-                     <div class="col-xl-3 col-sm-6 mb-3">
-                        <div class="video-card ssd" id="{{v}}">
+                  {% for v in myvideo %}
+                     <div class="col-xl-3 col-sm-6 mb-3" >
+                        <div class="video-card ssd" >
                            <form action="{% url 'video_page' vid=v.id %}" method="post"  id="{{v.id}}">
                               {% csrf_token %}
                            <div class="video-card-image">

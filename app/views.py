@@ -38,13 +38,13 @@ def upload_page(request):
     
     return render(request,'app/upload-video.html',default_data)
     
-# def video_page(request,vid):
-#     profile_data(request)
-#     selected_vid=Video.objects.get(id=vid)
-#     print("selected_vid.video",selected_vid.video)
-#     default_data['selected_video']=selected_vid
+def video_page(request,vid):
+    profile_data(request)
+    selected_vid=Video.objects.get(id=vid)
+    print("selected_vid.video",selected_vid.video)
+    default_data['selected_video']=selected_vid
     
-#     return render(request,'app/video-page.html',default_data)
+    return render(request,'app/video-page.html',default_data)
 
 # def v_page(request):
 #     profile_data(request)
@@ -81,7 +81,7 @@ def profile_data(request):
     print(request.session['mobile'])
     # upload_process(request)
     
-    # all_videos(request)
+    all_videos(request)
     try:
         if request.session['Mychannel']:
             current_channel_data(request)
@@ -201,7 +201,7 @@ def show__my_videos(request):
     video=Video.objects.filter(channel_name=chan)
     default_data['myvideo']=video
       
-# def all_videos(request):
-#     allvideos=Video.objects.all()
-#     default_data['all_videos']=allvideos
-#     # print(allvideos)
+def all_videos(request):
+    allvideos=Video.objects.all()
+    default_data['all_videos']=allvideos
+    # print(allvideos)

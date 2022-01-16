@@ -25,7 +25,7 @@ urlpatterns = [
     # path('v_page/',v_page ,name="v_page"),
 
     
-    # path('video_page/<int:vid>/',video_page ,name="video_page"),
+    path('video_page/<int:vid>/',video_page ,name="video_page"),
     # actual upload page
     path('upload_page/',upload_page ,name="upload_page"),
     # upload process url
