@@ -90,15 +90,16 @@ def profile_data(request):
     # videoss=Video.objects.all()
     print(request.session['mobile'])
     # upload_process(request)
-    
+    # default_data['request_session_Mychannel']=request.session['Mychannel']
     all_videos(request)
     show_all_channels(request)
     try:
         if request.session['Mychannel']:
             current_channel_data(request)
             show__my_videos(request)
+            print("sesssion channel present")
     except:
-        pass
+        print("sesssion channel not present")
     default_data['profile_data']=profile
     # default_data['videos']=videoss
 
@@ -197,7 +198,7 @@ def upload_process(request):
     vidoo=request.FILES['video']
     thumb=request.FILES['thumbnail']
     print(vidoo)
-    vid=Video.objects.create(channel_name=chan,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
+    vid=Video.objects.create(channel=chan,Video_Title=request.POST['vtitle'],video=vidoo,thumbnail=thumb,About=request.POST['about'],cast=request.POST['cast'],category=request.POST['category'],Language=request.POST['language'])
     vid.save()
 
     # video.Language=request.POST['language']
