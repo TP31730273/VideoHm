@@ -21,7 +21,8 @@ def Upload(request):
 
 # all channels showing 
 def channels(request):
-    return render(request,'app/channels.html')
+    profile_data(request)
+    return render(request,'app/channels.html',default_data)
 
 # my channel page
 def My_channel(request):
@@ -82,6 +83,7 @@ def profile_data(request):
     # upload_process(request)
     
     all_videos(request)
+    show_all_channels(request)
     try:
         if request.session['Mychannel']:
             current_channel_data(request)
@@ -100,7 +102,6 @@ def register_data(request):
         password=request.POST['password']
 
     )
-   
     Profile.objects.create(Master=master)
     
     return redirect(register)
@@ -112,6 +113,7 @@ def current_channel_data(request):
     mast=Master.objects.get(mobile_no=request.session['mobile'])
     chan=Channels.objects.get(Master=mast)
     default_data['current_channel']=chan
+    
 # create channel data
 def Create_channel(request):
     master=Master.objects.get(mobile_no=request.session['mobile'])
@@ -205,3 +207,35 @@ def all_videos(request):
     allvideos=Video.objects.all()
     default_data['all_videos']=allvideos
     # print(allvideos)
+
+def show_all_channels(request):
+    chn=Channels.objects.all()
+    default_data['all_channels']=chn
+
+def subscribers(request):
+    s=Subscriptions.objects.all()
+    l1=[]
+    channel=[]
+    for i in s:
+        l1.append([i.Master.mobile_no,i.subscribed_channel.channel_name])
+        channel.append(i.subscribed_channel.channel_name)
+    print(l1)
+    channel=list(set(channel))
+    print(channel)
+    sub_dict={}
+    for i in channel:
+        sum=0
+        for j in l1:
+            if i in j:
+                sum=sum+1
+        sub_dict[i]=sum
+    print(sub_dict)
+    chn=Channels.objects.all()
+    for i in chn:
+        for j in sub_dict:
+            if i.channel_name == j:
+                chu=Channels.objects.get(channel_name=j)
+                chu.subscribers=sub_dict[j]
+                chu.save()
+                
+    

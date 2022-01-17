@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Master, Profile, Channels, Video
+from .models import Master, Profile, Channels, Video, Subscriptions
 
 
 @admin.register(Master)
@@ -50,3 +50,9 @@ class VideoAdmin(admin.ModelAdmin):
         'category',
     )
     list_filter = ('channel_name',)
+
+
+@admin.register(Subscriptions)
+class SubscriptionsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'Master', 'subscribed_channel')
+    list_filter = ('Master', 'subscribed_channel')

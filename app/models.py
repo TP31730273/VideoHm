@@ -1,3 +1,4 @@
+from doctest import master
 from email.policy import default
 from operator import truediv
 from django.db import models
@@ -64,3 +65,13 @@ class Video(models.Model):
     
     def __str__(self):
         return self.Video_Title
+
+class Subscriptions(models.Model):
+    Master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    subscribed_channel = models.ForeignKey(Channels, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'Subsciption'
+    
+    def __str__(self):
+        return self.subscribed_channel.channel_name
