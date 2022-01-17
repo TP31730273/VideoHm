@@ -51,18 +51,25 @@
                      <div class="col-xl-3 col-sm-6 mb-3">
                         <div class="channels-card">
                            <div class="channels-card-image"  >
-                              <a href="#"><img class="img-fluid" src="img/s1.png" alt="" ac="{{ac}}"></a>
+                              <form action="{% url 'single_channel' cid=ac.id %}" method="post" id="{{ac.id}}">
+                                 {% csrf_token %}
+
+                              <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="img/s1.png" alt="" ac="{{ac}}">
+                              </form>
                               {% if request.session.Mychannel != ac.channel_name %}
-                                 <div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>
+                                 <div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>{{ac.subscribers}}</strong></button></div>
         
                               {% endif %}
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a href="#">{{ac.channel_name}}</a>
+                                 <form action="{% url 'single_channel' cid=ac.id %}" method="post" id="{{ac.id}}">
+                                    {% csrf_token %}
+                                    <a onclick="$('#{{ac.id}}').submit();">{{ac.channel_name}}</a>
+                                 </form>
                               </div>
                               <div class="channels-view">
-                                 382,323 subscribers
+                                 {{ac.subscribers}} subscribers
                               </div>
                            </div>
                         </div>

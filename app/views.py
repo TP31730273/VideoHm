@@ -28,6 +28,15 @@ def channels(request):
 def My_channel(request):
     profile_data(request)
     
+    return render(request,'app/personal-channel.html',default_data)
+
+# clicked channel
+def single_channel(request,cid):
+    profile_data(request)
+    selected_channel=Channels.objects.get(id=cid)
+    selected_channel_videos=Video.objects.filter(channel=selected_channel)
+    default_data['selected_channel']=selected_channel
+    default_data['selected_channel_videos']=selected_channel_videos
     return render(request,'app/single-channel.html',default_data)
 
 def create_channel_page(request):
@@ -113,7 +122,7 @@ def current_channel_data(request):
     mast=Master.objects.get(mobile_no=request.session['mobile'])
     chan=Channels.objects.get(Master=mast)
     default_data['current_channel']=chan
-    
+
 # create channel data
 def Create_channel(request):
     master=Master.objects.get(mobile_no=request.session['mobile'])

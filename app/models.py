@@ -1,6 +1,7 @@
 from doctest import master
 from email.policy import default
 from operator import truediv
+from pickle import TRUE
 from django.db import models
 
 # Create your models here.
@@ -38,7 +39,7 @@ class Profile(models.Model):
         # chabbel model
 class Channels(models.Model):
     Master = models.ForeignKey(Master, on_delete=models.CASCADE)
-    channel_name=models.CharField(max_length=100,null=True,default='')
+    channel_name=models.CharField(max_length=100,unique=TRUE,null=True,default='')
     subscribers=models.IntegerField(null=True,default=0)
     following=models.IntegerField(null=True,default=0)
     catagory=models.CharField(max_length=100,null=True,default='general')
@@ -51,7 +52,7 @@ class Channels(models.Model):
         
 
 class Video(models.Model):
-    channel_name = models.ForeignKey(Channels, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channels, on_delete=models.CASCADE)
     Video_Title=models.CharField(max_length=100,null=True,default='')
     video=models.FileField(upload_to='media')
     thumbnail=models.FileField(upload_to='thumbnail')

@@ -24,8 +24,14 @@ urlpatterns = [
 
     # path('v_page/',v_page ,name="v_page"),
 
-    
+    # single video playing url
+
     path('video_page/<int:vid>/',video_page ,name="video_page"),
+
+
+    # single channel url
+
+    path('single_channel_page/<int:cid>/',single_channel ,name="single_channel"),
     # actual upload page
     path('upload_page/',upload_page ,name="upload_page"),
     # upload process url

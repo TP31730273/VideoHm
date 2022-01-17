@@ -19,7 +19,7 @@
             </div>
             <div class="single-channel-nav">
                <nav class="navbar navbar-expand-lg navbar-light">
-                  <a class="channel-brand" href="#">{{selected_channel.channel_name}}<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></a>
+                  <a class="channel-brand" href="#">{{current_channel.channel_name}}<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></a>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                   </button>
@@ -80,7 +80,7 @@
                         </div>
                      </div>
 
-                     {% for v in selected_channel_videos %}
+                     {% for v in myvideo %}
                      <div class="col-xl-3 col-sm-6 mb-3">
                         <div class="video-card">
                            <div class="video-card-image">
