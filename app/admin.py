@@ -27,13 +27,14 @@ class ProfileAdmin(admin.ModelAdmin):
 class ChannelsAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'Master',
+        'Profile',
         'channel_name',
         'subscribers',
         'following',
         'catagory',
+        'Channel_pic',
     )
-    list_filter = ('Master',)
+    list_filter = ('Profile',)
 
 
 @admin.register(Video)

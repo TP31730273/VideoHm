@@ -229,7 +229,7 @@
 
                      <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="img/s1.png" alt="" ac="{{ac}}">
                      </form>
-                     {% if request.session.Mychannel != ac.channel_name %}
+                     {% if current_channel.channel_name != ac.channel_name %}
                         <div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>{{ac.subscribers}}</strong></button></div>
 
                      {% endif %}

@@ -69,7 +69,7 @@
             </div>
           </div>
       </li> 
-      {% if request.session.Mychannel %}
+      {% if current_channel %}
       <li class="nav-item mx-1">
           <a class="nav-link" href="{% url 'Upload' %}">
           <i class="fas fa-plus-circle fa-fw"></i>
@@ -107,10 +107,10 @@
            
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            {% if request.session.Mychannel %}
+            {% if current_channel %}
             <a class="dropdown-item" href="{% url 'My_account' %}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; My account</a>
             {% endif %}
-            {% if not request.session.Mychannel %}
+            {% if not current_channel %}
             <a class="dropdown-item" href="{% url 'create_channel_page' %}"><i class="fas fa-plus-square"></i> &nbsp; Create your channel</a>
             {% endif %}
              <a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; My Subscriptions</a>
@@ -139,7 +139,7 @@
           <span>All Channels</span>
           </a>
        </li>
-       {% if request.session.Mychannel %}
+       {% if current_channel %}
        <li class="nav-item">
           <a class="nav-link" href="{% url 'My_channel' %}">
           <i class="fas fa-fw fa-user-alt"></i>
@@ -148,7 +148,7 @@
        </li>
        {% endif %}
 
-       {% if not request.session.Mychannel %}
+       {% if not current_channel %}
        <li class="nav-item">
          <a class="nav-link" href="{% url 'create_channel_page' %}">
          <i class="fas fa-plus-square"></i>
@@ -156,7 +156,7 @@
          </a>
       </li>
       {% endif %}
-      {% if request.session.Mychannel %}
+      {% if current_channel %}
        <li class="nav-item">
           <a class="nav-link" href="{% url 'Upload' %}   ">
           <i class="fas fa-fw fa-cloud-upload-alt"></i>

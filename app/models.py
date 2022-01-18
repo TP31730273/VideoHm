@@ -38,11 +38,12 @@ class Profile(models.Model):
 
         # chabbel model
 class Channels(models.Model):
-    Master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     channel_name=models.CharField(max_length=100,unique=TRUE,null=True,default='')
     subscribers=models.IntegerField(null=True,default=0)
     following=models.IntegerField(null=True,default=0)
     catagory=models.CharField(max_length=100,null=True,default='general')
+    Channel_pic=models.FileField(upload_to='channel_pic')
     
     class Meta:
         db_table = 'Channels'
@@ -54,7 +55,7 @@ class Channels(models.Model):
 class Video(models.Model):
     channel = models.ForeignKey(Channels, on_delete=models.CASCADE)
     Video_Title=models.CharField(max_length=100,null=True,default='')
-    video=models.FileField(upload_to='media')
+    video=models.FileField(upload_to='videos')
     thumbnail=models.FileField(upload_to='thumbnail')
     About = models.TextField(max_length=350,null=True,default='')
     Language = models.CharField(max_length=350,null=True,default='')
