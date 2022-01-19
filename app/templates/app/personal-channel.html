@@ -83,12 +83,15 @@
                      {% for v in myvideo %}
                      <div class="col-xl-3 col-sm-6 mb-3">
                         <div class="video-card">
-                           <div class="video-card-image">
-                              <form action="{% url 'video_page' vid=v.id %}" method="post"  id="{{v.id}}">
+                           <form action="{% url 'video_page' vid=v.id %}" method="post"  id="{{v.id}}">
+
+                           <div class="video-card-image" style="width:248px; height:150px;">
                                  {% csrf_token %}
-                              <div class="video-card-image">
+                              <div class="video-card-image"  style="width:248px; height:150px; align-items: center;">
                                  <a class="play-icon"  id="{{v.Video_Title}}" onclick="$('#{{v.id}}').submit();" ><i class="fas fa-play-circle"></i></a>
-                                 <img class="img-fluid" width="270" height="169" src="{{v.thumbnail.url}}" alt="submit" >
+                                 <img class="img-fluid rounded mx-auto d-block" style="width:200px; height:150px; display: block;
+                                 margin-left: auto;
+                                 margin-right: auto;" src="{{v.thumbnail.url}}" alt="Responsive image" >
                                  <div class="time">3:50</div>
                               </div>
                            </form>

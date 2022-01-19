@@ -2,6 +2,7 @@ from doctest import master
 from email.policy import default
 from operator import truediv
 from pickle import TRUE
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
@@ -69,7 +70,7 @@ class Video(models.Model):
         return self.Video_Title
 
 class Subscriptions(models.Model):
-    Master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     subscribed_channel = models.ForeignKey(Channels, on_delete=models.CASCADE)
 
     class Meta:
@@ -77,3 +78,15 @@ class Subscriptions(models.Model):
     
     def __str__(self):
         return self.subscribed_channel.channel_name
+
+class comments_and_likes(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    channel=models.ForeignKey(Channels, on_delete=models.CASCADE,null=True)
+    comments=models.TextField(blank = True)
+
+    class Meta:
+        db_table = 'Comments_and_likes'
+    
+    def __str__(self):
+        return self.video.Video_Title

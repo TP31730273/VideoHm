@@ -1,12 +1,9 @@
-from doctest import master
-import profile
 import re
 from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import *
 
 # Create your views here.
-from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
-from .models import *
 
 # default data dictionary
 default_data = {
@@ -66,6 +63,17 @@ def video_page(request, vid):
     selected_vid = Video.objects.get(id=vid)
     print("selected_vid.video", selected_vid.video)
     default_data['selected_video'] = selected_vid
+    temp=0
+   
+    try:
+        all_comment=comments_and_likes.objects.all()
+        
+        for i in all_comment:
+            if selected_vid.Video_Title == i.video.Video_Title:
+                temp= temp + 1
+        default_data['comments_number']=temp
+    except:
+        default_data['comments_number']=0
 
     return render(request, 'app/video-page.html', default_data)
 
@@ -107,16 +115,19 @@ def profile_data(request):
     profile = Profile.objects.get(Master=master)
     print(request.session['mobile'])
     # upload_process(request)
-
+    foo=0
     all_videos(request)
     show_all_channels(request)
     try:
+        show_all_comment(request)
         current_channel_data(request)
         show__my_videos(request)
+        
         print("channel present")
     except:
         print("channel not present")
     default_data['profile_data'] = profile
+    default_data['foo']=foo
     
 
 # register data function
@@ -159,7 +170,13 @@ def Create_channel(request):
         catagory=request.POST['category'],
         Channel_pic=cl_pic)
     chan.save()
-    request.session['Mychannel'] = chan.channel_name
+    try:
+        comment=comments_and_likes.objects.filter(profile=chan.Profile)
+        for c in comment:
+            c.channel=chan
+            c.save()
+    except:
+        print("congo for creating a channel now upload your videos and enjoy....")
     return redirect(home)
 
 
@@ -169,6 +186,7 @@ def login_data(request):
     mobile = request.POST['mobile']
     master = Master.objects.get(mobile_no=mobile)
     prof = Profile.objects.get(Master=master)
+    print("kjakdjkajdlajdka")
 
     try:
 
@@ -176,7 +194,8 @@ def login_data(request):
 
             print("mast:", master)
             chn = Channels.objects.get(Profile=prof)
-            print("you have channel go on :", request.session['Mychannel'])
+            print(chn)
+            print("you have channel go on :")
         except:
             print("you don't have channel")
 
@@ -242,6 +261,48 @@ def upload_process(request):
     # video.
     return redirect(My_channel)
 
+
+# comment saving pae form coments
+
+def save_comment(request,vid):
+    try:
+        c=Channels.objects.get(
+                Profile=(
+                    Profile.objects.get(Master=(
+                        Master.objects.get(mobile_no=request.session['mobile'])
+                        )
+                    )
+                )
+            )
+        print("channel wala code exicuted")
+    except:
+        c=None
+        print("channel wala code None set hua h be")
+        
+    comment=comments_and_likes.objects.create(profile=(
+        Profile.objects.get(Master=(
+            Master.objects.get(
+                mobile_no=request.session['mobile']
+            )   
+        ))
+    ),
+    video=(
+        Video.objects.get(id=vid)
+    ),
+    comments=request.POST['comment'],
+    channel=c
+    ) 
+     
+    comment.save()
+    return redirect(video_page,vid)
+
+# show all commnts
+def show_all_comment(request):
+    all_cmnts=comments_and_likes.objects.all()
+    print(len(all_cmnts))
+    
+
+    default_data['all_comments']=all_cmnts
 # video showing page
 
 
@@ -253,7 +314,6 @@ def show__my_videos(request):
                     Master=(
                         Master.objects.get(mobile_no=request.session['mobile'])))))))
     default_data['myvideo'] = video
-    print("my videos: ", video)
 
 
 def all_videos(request):

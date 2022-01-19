@@ -13,7 +13,7 @@
                <div class="col-xl-3 col-sm-6 mb-3">
                   <div class="channels-card">
                      <div class="channels-card-image">
-                        <a href="#"><img class="img-fluid" src="img/s1.png" alt=""></a>
+                        <a href="#"><img class="img-fluid" src="{{current_channel.Channel_pic.url}}" alt=""></a>
                      </div>
                      <div class="channels-card-body">
                         <div class="channels-title">
@@ -53,8 +53,15 @@
                            <div class="channels-card-image"  >
                               <form action="{% url 'single_channel' cid=ac.id %}" method="post" id="{{ac.id}}">
                                  {% csrf_token %}
-
-                              <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="img/s1.png" alt="" ac="{{ac}}">
+                              {% if current_channel.channel_name == ac.channel_name %}
+                                 <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="{{current_channel.Channel_pic.url}}" alt="" ac="{{ac}}">
+                              {% else %}
+                                 {% if ac.Channel_pic != '' %}
+                                    <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="{{ac.Channel_pic.url}}" alt="" ac="{{ac}}">
+                                 {% else %}
+                                    <img class="img-fluid" onclick="$('#{{ac.id}}').submit();" src="{% static 'images/v1.png'%}" alt="" ac="{{ac}}">
+                                 {% endif %}
+                              {% endif %}
                               </form>
                               {% if current_channel.channel_name != ac.channel_name %}
                                  <div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>{{ac.subscribers}}</strong></button></div>

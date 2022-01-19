@@ -174,13 +174,17 @@
                </div>
             </div>
          {% for v in all_videos %}
-            <div class="col-xl-3 col-sm-6 mb-3">
-               <div class="video-card">
+            <div class="col-xl-3 col-sm-6 mb-3" >
+               <div class="video-card" >
                   <form action="{% url 'video_page' vid=v.id%}" id="{{v.id}}" method="post">
                   {% csrf_token %}
-                  <div class="video-card-image">
+                  <div class="video-card-image" class="center" style="width:248px; height:150px; display: block;
+                  margin-left: auto;
+                  margin-right: auto;">
                      <a class="play-icon" onclick="$('#{{v.id}}').submit();"><i class="fas fa-play-circle"></i></a>
-                     <img class="img-fluid" src="{{v.thumbnail.url}}" alt="submit"></a>
+                     <img class="img-fluid rounded mx-auto d-block" src="{{v.thumbnail.url}}" style="width:200px; height:150px; display: block;
+                     margin-left: auto;
+                     margin-right: auto;" alt="Responsive image"></a>
                      <div class="time">3:50</div>
                   </div>
                   <div class="video-card-body">
@@ -188,7 +192,7 @@
                         <a href="#">There are many variations of passages of Lorem</a>
                      </div>
                      <div class="video-page text-success">
-                        Education <a title="" data-placement="top" data-toggle="tooltip" href="#"
+                        {{v.category}} <a title="" data-placement="top" data-toggle="tooltip" href="#"
                            data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                      </div>
                      <div class="video-view">

@@ -28,6 +28,10 @@ urlpatterns = [
 
     path('video_page/<int:vid>/',video_page ,name="video_page"),
 
+    # save comment on video page
+    
+    path('save_comment/<int:vid>/',save_comment ,name="save_comment"),
+
 
     # single channel url
 

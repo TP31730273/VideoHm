@@ -28,7 +28,7 @@
                                        {% csrf_token %}
                                     <div class="video-card-image">
                                        <a class="play-icon"  id="{{v.Video_Title}}" onclick="$('#{{v.id}}').submit();" ><i class="fas fa-play-circle"></i></a>
-                                       <img class="img-fluid" width="270" height="169" src="{{v.thumbnail.url}}" alt="submit" >
+                                       <img class="img-fluid rounded mx-auto d-block"  src="{{v.thumbnail.url}}" alt="submit" >
                                        <div class="time">3:50</div>
                                     </div>
                                     </form>
@@ -44,10 +44,10 @@
                                           </div>
                                        </div>
                                        <div class="video-title">
-                                          <a href="#">Here are many variati of passages of Lorem</a>
+                                          {{v.Video_Title}}
                                        </div>
                                        <div class="video-page text-success">
-                                          Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                          {{v.category}}  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                                        </div>
                                        <div class="video-view">
                                           1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
@@ -72,7 +72,8 @@
                               {% if not current_channel %}
                               <div class="float-right"><button class="btn btn-danger" type="button">Subscribe <strong>1.4M</strong></button> <button class="btn btn btn-outline-danger" type="button"><i class="fas fa-bell"></i></button></div>
                               {% endif %}
-                              <img class="img-fluid" src="img/s4.png" alt="">
+                        
+                              <img class="img-fluid" src="{{selected_video.channel.Channel_pic.url}}" alt="">
                               <form action="{% url 'single_channel' cid=selected_video.channel.id %}" method="post" class="{{selected_video.channel.id}}">
                                  {% csrf_token %}
                               <p onclick="$('.{{selected_video.channel.id}}').submit();"><strong>{{selected_video.channel.channel_name}}</strong> <span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></p>
@@ -118,64 +119,55 @@
                                  <div class="tab-pane fade show active" id="retro-comments" role="tabpanel" aria-labelledby="retro-comments-tab">
                                     <div class="reviews-members pt-0">
                                        <div class="media">
-                                          <a href="#"><img class="mr-3" src="img/s1.png" alt="Generic placeholder image"></a>
-                                          <div class="media-body">
-                                             <div class="form-members-body">
-                                                <textarea rows="1" placeholder="Add a public comment..." class="form-control"></textarea>
+                                          {% if current_channel %}
+                                             <img class="mr-3" src="{{current_channel.Channel_pic.url}}" alt="Generic placeholder image">
+                                          {% endif %}
+                                          <form action="{% url 'save_comment' vid=selected_video.id %}" method="post">
+                                             {% csrf_token %}
+                                             <div class="media-body">
+                                                <div class="form-members-body">
+                                                   <textarea rows="1" placeholder="Add a public comment..." name="comment" class="form-control"></textarea>
+                                                </div>
+   
+                                                <div  class="form-members-footer text-right mt-2">
+                                                   <b class="float-left"> {{comments_number}} Comments &nbsp&nbsp
+                                                   </b>
+                                                
+                                                   <button class="btn btn-danger btn-sm" type="submit">COMMENT NOW</button>
+                                                </div>
                                              </div>
-                                             <div class="form-members-footer text-right mt-2">
-                                                <b class="float-left">12,725 Comments
-                                                </b>
-                                                <button class="btn btn-outline-danger btn-sm" type="button">CANCEL</button> <button class="btn btn-danger btn-sm" type="button">COMMENT</button>     
+                                       </form>
+                                       </div>
+                                    </div>
+                                    <!--  -->
+                                    {% for c in all_comments %}
+                                    {% if selected_video.Video_Title == c.video.Video_Title %}
+                                       <div class="reviews-members">
+                                          <div class="media">
+                                             {% if current_channel.Profile == c.profile %}
+                                                <img class="mr-3" src="{{current_channel.Channel_pic.url}}" alt="Generic placeholder image">
+                                             {% elif c.channel %}
+                                                <img class="mr-3" src="{{c.channel.Channel_pic.url}}" alt="Generic placeholder image">
+            
+                                                
+                                             {% endif %}
+                                             <div class="media-body">
+                                                <div class="reviews-members-header">
+                                                   
+                                                   <h6 class="mb-1"><a class="text-black" href="#">{{c.profile.FullName}}</a> <small class="text-gray">2 months ago</small></h6>
+                                                </div>
+                                                <div class="reviews-members-body">
+                                                   <p>{{c.comments}} </p>
+                                                </div>
+                                                <div class="reviews-members-footer">
+                                                   <!-- <a class="total-like" href="#"><i class="fas fa-thumbs-up"></i> 123</a> <a class="total-like" href="#"><i class="fas fa-thumbs-down"></i> 02</a>  -->
+                                                </div>
                                              </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="reviews-members">
-                                       <div class="media">
-                                          <a href="#"><img class="mr-3" src="img/s2.png" alt="Generic placeholder image"></a>
-                                          <div class="media-body">
-                                             <div class="reviews-members-header">
-                                                <h6 class="mb-1"><a class="text-black" href="#">Gurdeep Osahan </a> <small class="text-gray">2 months ago</small></h6>
-                                             </div>
-                                             <div class="reviews-members-body">
-                                                <p> reacthe last order. Even though they had Chefs in their open kitchen they weren’t flexible to dish out few more items. Anyway the food was super specially their stone dessert.</p>
-                                             </div>
-                                             <div class="reviews-members-footer">
-                                                <a class="total-like" href="#"><i class="fas fa-thumbs-up"></i> 123</a> <a class="total-like" href="#"><i class="fas fa-thumbs-down"></i> 02</a> 
-                                                <span dir="rtl" class="total-like-user-main ml-2">
-                                                <a href="#" title="Gurdeep Osahan" data-placement="top" data-toggle="tooltip"><img class="total-like-user" src="img/s1.png" alt="Generic placeholder image"></a>
-                                                <a href="#" title="Gurdeep Osahan" data-placement="top" data-toggle="tooltip"><img class="total-like-user" src="img/s2.png" alt="Generic placeholder image"></a>
-                                                <a href="#" title="Gurdeep Osahan" data-placement="top" data-toggle="tooltip"><img class="total-like-user" src="img/s3.png" alt="Generic placeholder image"></a>
-                                                <a href="#" title="Gurdeep Osahan" data-placement="top" data-toggle="tooltip"><img class="total-like-user" src="img/s4.png" alt="Generic placeholder image"></a>
-                                                </span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="reviews-members">
-                                       <div class="media">
-                                          <a href="#"><img alt="Generic placeholder image" src="img/s3.png" class="mr-3"></a>
-                                          <div class="media-body">
-                                             <div class="reviews-members-header">
-                                                <h6 class="mb-1"><a href="#" class="text-black">Gurdeep Osahan </a> <small class="text-gray">2 months ago</small></h6>
-                                             </div>
-                                             <div class="reviews-members-body">
-                                                <p>Was here impromptu in their first week, reacthe last order. Even though they had Chefs in their open kitchen they weren’t flexible to dish out few more items.</p>
-                                             </div>
-                                             <div class="reviews-members-footer">
-                                                <a href="#" class="total-like"><i class="fas fa-thumbs-up"></i> 123</a> <a href="#" class="total-like"><i class="fas fa-thumbs-down"></i> 02</a> 
-                                                <span class="total-like-user-main ml-2" dir="rtl">
-                                                <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="img/s5.png" class="total-like-user"></a>
-                                                <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="img/s6.png" class="total-like-user"></a>
-                                                <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="img/s7.png" class="total-like-user"></a>
-                                                <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="img/s8.png" class="total-like-user"></a>
-                                                </span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                         
+                                       {% endif %}
+                                    {% endfor %}
+                                    <!--  -->
                                  </div>
                               </div>
                            </div>
@@ -211,8 +203,8 @@
                                     <form action="{% url 'video_page' vid=v.id %}" method="post"  id="{{v.id}}">
                                        {% csrf_token %}
                                     <div class="video-card-image">
-                                       <a class="play-icon"  id="{{v.Video_Title}}" onclick="$('#{{v.id}}').submit();" ><i class="fas fa-play-circle"></i></a>
-                                       <img class="img-fluid" width="270" height="169" src="{{v.thumbnail.url}}" alt="submit" >
+                                       <a class="play-icon" onclick="$('#{{v.id}}').submit();" ><i class="fas fa-play-circle"></i></a>
+                                       <img class="img-fluid rounded mx-auto d-block" src="{{v.thumbnail.url}}" alt="submit" >
                                        <div class="time">3:50</div>
                                     </div>
                                     </form>
@@ -228,10 +220,10 @@
                                           </div>
                                        </div>
                                        <div class="video-title">
-                                          <a href="#">Here are many variati of passages of Lorem</a>
+                                          {{v.Video_Title}}
                                        </div>
                                        <div class="video-page text-success">
-                                          Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                          {{v.category}}  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                                        </div>
                                        <div class="video-view">
                                           1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
